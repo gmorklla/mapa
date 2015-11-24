@@ -12,9 +12,17 @@
       }
       #map {
         height: 100%;
+        margin-top: 40px;
       }
       #resultado {
-        
+        width: 100%;
+        height: 30px;
+        background: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-top: 10px;
+        padding-left: 10px;
       }
     </style>
   </head>
@@ -60,6 +68,7 @@
                  } else if(puntos.length === 1) {
                     puntos.push(punto);
                     var distancia = getDistance(puntos[0].latitud, puntos[0].longitude, puntos[1].latitud, puntos[1].longitude);
+                    $('#resultado').text('La distancia entre esos dos puntos es: ' + distancia + ' km');
                     console.log(distancia);
                  } else {
                   puntos = [];
