@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+        margin-top: 40px;
+      }
+      #resultado {
+        width: 100%;
+        height: 30px;
+        background: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-top: 10px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="resultado"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy2XNERytdPndsS6LXGqcTsl0THYlJ54I&libraries=places"></script>
+    <script src="http://underscorejs.org/underscore.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script>
+
+      var map;
+      var geocoder;
+      var boundary = [];
+      var puntos = [];
+      function initMap(locations) {
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 19.3828036, lng: -99.1868578},
+          zoom: 13
+        });    
+
+      var infowindow = new google.maps.InfoWindow;
+
+      var marker, i;
+
+      for (i = 0; i < locations.length; i++) {  
+          marker = new google.maps.Marker({
+               position: new google.maps.LatLng(locations[i].LATITUD, locations[i].LONGITUD),
+               map: map
+          });
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+               return function() {
+                   infowindow.setContent('Unidad: ' + locations[i].IDUNIDAD + ' | Nombre: ' + locations[i].NOMBREL);
+                   infowindow.open(map, marker);
+                   var punto = {
+                      latitud: this.getPosition().lat(),
+                      longitude: this.getPosition().lng()
+                   }
+                   if(puntos.length === 0) {
+                    puntos.push(punto);
+                   } else if(puntos.length === 1) {
+                      puntos.push(punto);
+                      var distancia = getDistance(puntos[0].latitud, puntos[0].longitude, puntos[1].latitud, puntos[1].longitude);
+                      $('#resultado').text('La distancia entre esos dos puntos es: ' + distancia + ' km');
+                      console.log(distancia);
+                   } else {
+                    puntos = [];
+                    puntos.push(punto);
+                   }
+               }
+          })(marker, i));
+      }
+
+      }
+
+      function getDistance (lat1,lon1,lat2,lon2) {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lon2-lon1);
+        var a =
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+        return d;
+      };
+
+      function deg2rad(deg) {
+        return deg * (Math.PI/180);
+      }    
+
+      $(function() {
+        $.get( "location.json", function( data ) {
+          var farMH = _.where(data, {MUNICIPIOL: "BENITO JUAREZ", ESTADO: "DISTRITO FEDERAL"});
+
+          var farBenitoJuarez = [];
+
+
+          var farmacias = ["DEL VALLE CENTRO 3, BENITO JUAREZ", "PORTALES SUR 1, BENITO JUAREZ", "NARVARTE ORIENTE 1 BENITO JUAREZ", "DEL VALLE CENTRO 2, BENITO JUAREZ", "ANTILLAS", "DIAGONAL SAN ANTONIO", "NAPOLES", "TAJIN", "TORRES ADALID", "UNIVERSIDAD 2", "FELIX CUEVAS"];
+          _.each(farmacias, function (key, val) {
+            var farDV = _.findWhere(data, {NOMBREL: key});
+            farBenitoJuarez.push(farDV);
+          });                 
+
+          initMap(farBenitoJuarez);
+        });
+
+      });
+
+    </script>
+  </body>
+</html>
