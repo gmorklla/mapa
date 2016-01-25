@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Map Tracking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <div id="map-canvas"></div>
+            <p><a class="btn btn-lg btn-success" href="#" role="button" onclick="getLocation()">Empieza a rastrear</a></p>
+            <p><a class="btn btn-lg btn-success" href="#" role="button" onclick="getRadio()">Get Radio</a></p>
+            <p id="demo"></p>
+        </div>
+        <div class="row marketing">
+            <div class="col-lg-6">
+                <h4>Lat</h4>
+                <p id="lat"></p>
+            </div>
+            <div class="col-lg-6">
+                <h4>Lng</h4>
+                <p id="lng"></p>
+            </div>
+        </div>
+    </div>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- RSVP -->
+    <script src="bower_components/rsvp/rsvp.min.js"></script>
+    <!-- Firebase -->
+    <script src="bower_components/firebase/firebase.js"></script>
+    <!-- GeoFire -->
+    <script src="bower_components/geofire/dist/geofire.min.js"></script>    
+    <!-- Map Configuration and data -->
+    <script src="js/mapInit.js"></script>
+    <script src="js/geoFire.js"></script>
+
+</body>
+
+</html>
